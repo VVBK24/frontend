@@ -25,6 +25,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import PersonIcon from '@mui/icons-material/Person';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import CloseIcon from '@mui/icons-material/Close';
+import { fetchChatResponse } from '../service/chat'; // Adjust the import path as necessary
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -132,7 +133,7 @@ const Lung = () => {
 
     const userMessage = chatMessage;
     setChatMessage('');
-    
+
     // Add user message
     setChatHistory(prev => [...prev, {
       role: 'user',
@@ -141,23 +142,9 @@ const Lung = () => {
     }]);
 
     try {
-      const response = await fetch('http://localhost:5000/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ message: userMessage })
-      });
+      const response = await fetchChatResponse(userMessage);
+      const data = typeof response === 'string' ? JSON.parse(response) : response;
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
       // Add AI response
       setChatHistory(prev => [...prev, {
         role: 'assistant',
