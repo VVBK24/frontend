@@ -1,4 +1,4 @@
-# Lung Disease Detection API
+# Lung Disease Detection API !!!! This is only frontend part -- fully project will be upcoming days!!!!
 
 A multimodal deep learning model for detecting and classifying lung diseases using X-ray and CT scan images. The model can identify pneumonia and different types of lung cancer.
 
